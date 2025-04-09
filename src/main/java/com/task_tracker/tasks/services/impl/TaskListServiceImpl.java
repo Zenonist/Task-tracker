@@ -24,24 +24,22 @@ public class TaskListServiceImpl implements TaskListService {
 
     @Override
     public TaskList createTaskList(TaskList taskList) {
-        if (null != taskList.getId()){
+        if (null != taskList.getId()) {
             throw new IllegalArgumentException("Task list already has an ID");
         }
-        if (null == taskList.getTitle() || taskList.getTitle().isBlank()){
+        if (null == taskList.getTitle() || taskList.getTitle().isBlank()) {
             throw new IllegalArgumentException("Task list title must be present!");
         }
 
-        taskListRepository.save(
+        return taskListRepository.save(
                 new TaskList(
-                    null,
-                    taskList.getDescription(),
-                    null,
-                    taskList.getTitle(),
-                    LocalDateTime.now(),
-                    LocalDateTime.now()
+                        null,
+                        taskList.getTitle(),
+                        null,
+                        taskList.getDescription(),
+                        LocalDateTime.now(),
+                        LocalDateTime.now()
                 )
         );
-
-        return null;
     }
 }
