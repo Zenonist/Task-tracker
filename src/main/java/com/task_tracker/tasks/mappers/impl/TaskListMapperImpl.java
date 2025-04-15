@@ -1,6 +1,5 @@
 package com.task_tracker.tasks.mappers.impl;
 
-
 import com.task_tracker.tasks.domain.dto.TaskListDto;
 import com.task_tracker.tasks.domain.entities.Task;
 import com.task_tracker.tasks.domain.entities.TaskList;
@@ -26,6 +25,7 @@ public class TaskListMapperImpl implements TaskListMapper {
         return new TaskList(
                 taskListDto.id(),
                 taskListDto.title(),
+                // Convert list of TaskDto to list of Task entities, handling null values by returning null if the source list is null
                 Optional.ofNullable(taskListDto.tasks()).map(tasks -> tasks.stream().map(taskMapper::fromDto).toList()).orElse(null),
                 taskListDto.description(),
                 null,
@@ -33,6 +33,7 @@ public class TaskListMapperImpl implements TaskListMapper {
         );
     }
 
+    @Override
     public TaskListDto toDto(TaskList taskList){
         return new TaskListDto(
                 taskList.getId(),
