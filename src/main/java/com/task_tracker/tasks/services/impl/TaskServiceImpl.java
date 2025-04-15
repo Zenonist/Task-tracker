@@ -8,6 +8,7 @@ import com.task_tracker.tasks.repositories.TaskRepository;
 import com.task_tracker.tasks.repositories.TaskListRepository;
 import com.task_tracker.tasks.services.TaskService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -101,5 +102,11 @@ public class TaskServiceImpl implements TaskService {
         existingTask.setUpdatedAt(LocalDateTime.now());
 
         return taskRepository.save(existingTask);
+    }
+
+    @Transactional // Ensures the entire delete operation is atomic: either completes fully or rolls back completely if an error occurs. Also helps maintain database consistency and integrity during the deletion process.
+    @Override
+    public void deleteTask(UUID taskListId, UUID taskId) {
+        taskRepository.deleteByTaskListIdAndId(taskListId, taskId);
     }
 }
