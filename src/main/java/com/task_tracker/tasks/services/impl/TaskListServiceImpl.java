@@ -4,6 +4,7 @@ import com.task_tracker.tasks.domain.entities.TaskList;
 import com.task_tracker.tasks.repositories.TaskListRepository;
 import com.task_tracker.tasks.services.TaskListService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -51,6 +52,7 @@ public class TaskListServiceImpl implements TaskListService {
         return taskListRepository.findById(id);
     }
 
+    @Transactional // Transaction is required if it requires multiple database operations
     @Override
     public TaskList updateTaskList(UUID taskListId, TaskList taskList) {
         if(null == taskList.getId()){
