@@ -1,8 +1,10 @@
-HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+### Spring Boot ###
+Backend/HELP.md
+Backend/target/
+Backend/mvnw
+!Backend/.mvn/wrapper/maven-wrapper.jar
+!Backend/**/src/main/**/target/
+!Backend/**/src/test/**/target/
 
 ### STS ###
 .apt_generated
@@ -31,3 +33,11 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Logs ###
+*.log
+logs/
+
+### OS specific files ###
+.DS_Store
+Thumbs.db

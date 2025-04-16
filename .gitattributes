@@ -1,2 +1,49 @@
-/mvnw text eol=lf
+# Set default behavior to automatically normalize line endings
+* text=auto
+
+# Java sources
+*.java text diff=java
+*.gradle text diff=java
+*.gradle.kts text diff=java
+
+# These files are text and should be normalized
+*.css text diff=css
+*.scss text diff=css
+*.html text diff=html
+*.js text
+*.ts text
+*.json text
+*.xml text
+*.yaml text
+*.yml text
+*.md text diff=markdown
+*.properties text
+*.sql text
+
+# Shell scripts should use LF
+*.sh text eol=lf
+
+# Batch scripts should use CRLF
+*.bat text eol=crlf
 *.cmd text eol=crlf
+Backend/mvnw.cmd text eol=crlf
+
+# Binary files (no modification)
+*.jar binary
+*.war binary
+*.zip binary
+*.tar binary
+*.tar.gz binary
+*.ear binary
+*.pdf binary
+*.ico binary
+*.gif binary
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.webp binary
+*.svg binary
+*.ttf binary
+*.eot binary
+*.woff binary
+*.woff2 binary
