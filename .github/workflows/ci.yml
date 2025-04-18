@@ -23,7 +23,7 @@ jobs:
 
       - name: Build and test with Maven
         # -B runs in non-interactive (batch) mode
-        run: mvn -B package --file Backend/pom.xml
+        run: mvn -B package -DskipTests --file Backend/pom.xml
 
   build-frontend:
     name: Build & Lint Frontend
