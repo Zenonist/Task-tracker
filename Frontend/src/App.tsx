@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import TaskList from "./components/TaskList";
-import mockData from "./mock-data/mock-data";
 import TaskListProps from "./structure/TaskListProps";
 import { CirclePlus } from "lucide-react";
 import axios from "axios";
