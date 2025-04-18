@@ -139,7 +139,7 @@ export const TaskList = ({
     console.log("New status:", status);
     console.log("New priority:", priority);
     console.log("New due date:", dueDate);
-    
+
     setSubTasks((prev) => {
       return prev.map((task) => {
         if (task.id === id) {
@@ -147,6 +147,12 @@ export const TaskList = ({
         }
         return task;
       });
+    });
+  }
+
+  const updateSubTasksDelete = (id: string) => {
+    setSubTasks((prev) => {
+      return prev.filter((task) => task.id !== id);
     });
   }
 
@@ -276,7 +282,7 @@ export const TaskList = ({
                     priority={task.priority}
                     onDone={updateSubTasksDone}
                     onEdit={updateSubTasksEdit}
-                    // onDelete={updateSubTasks}
+                    onDelete={updateSubTasksDelete}
                   />
                 </div>
               ))}

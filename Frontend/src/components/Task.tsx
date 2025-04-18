@@ -16,7 +16,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
-import { CalendarIcon, PencilRuler, SquareSlash } from "lucide-react";
+import { CalendarIcon, PencilRuler, SquareSlash, Trash2 } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   Tooltip,
@@ -48,8 +48,15 @@ import { TaskStatus } from "@/structure/TaskStatus";
 interface TaskPropsComponent extends TaskProps {
   taskListId: string;
   onDone: (id: string) => void;
-  onEdit: (id: string, title: string, description: string, status: TaskStatus, priority: PriorityStatus, dueDate: string) => void;
-  // onDelete: (id: string) => void;
+  onEdit: (
+    id: string,
+    title: string,
+    description: string,
+    status: TaskStatus,
+    priority: PriorityStatus,
+    dueDate: string
+  ) => void;
+  onDelete: (id: string) => void;
 }
 
 export const Task = ({
@@ -62,11 +69,13 @@ export const Task = ({
   dueDate,
   onDone,
   onEdit,
-  // onDelete,
+  onDelete,
 }: TaskPropsComponent) => {
   const newDateFormat = new Date(dueDate);
   const [taskTitle, setTaskTitle] = useState<string>(title);
-  const [taskDescription, setTaskDescription] = useState<string | null>(description);
+  const [taskDescription, setTaskDescription] = useState<string | null>(
+    description
+  );
   const [taskPriority, setTaskPriority] = useState<PriorityStatus>(priority);
   const [taskStatus, setTaskStatus] = useState<TaskStatus>(status);
   const [taskDueDate, setTaskDueDate] = useState<Date | undefined>(
@@ -114,12 +123,36 @@ export const Task = ({
         }
       )
       .then(() => {
-        onEdit(id, taskTitle, taskDescription ?? "", taskStatus, taskPriority, taskDueDate?.toISOString() ?? "");
+        onEdit(
+          id,
+          taskTitle,
+          taskDescription ?? "",
+          taskStatus,
+          taskPriority,
+          taskDueDate?.toISOString() ?? ""
+        );
       })
       .catch((error) => {
         console.error("Error updating task:", error);
       });
   };
+
+  const handleDelete = () => {
+    axios
+      .delete(
+        import.meta.env.VITE_API_URL +
+          "/task-lists/" +
+          taskListId +
+          "/tasks/" +
+          id
+      )
+      .then(() => {
+        onDelete(id);
+      })
+      .catch((error) => {
+        console.error("Error deleting task:", error);
+      });
+  }
 
   return (
     <Card>
@@ -292,6 +325,37 @@ export const Task = ({
             </Dialog>
 
             {/* Delete button */}
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant={"outline"} className="cursor-pointer">
+                  <Trash2 />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="text-white bg-black">
+                <DialogHeader>
+                  <DialogTitle>Delete this task?</DialogTitle>
+                  <DialogDescription>
+                    Are you sure that you want to delete this task?
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter className="flex flew-row justify-between">
+                  <DialogClose asChild>
+                    <Button
+                      variant={"outline"}
+                      className="bg-red-500"
+                      onClick={() => {
+                        handleDelete();
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </DialogClose>
+                  <DialogClose asChild>
+                    <Button variant={"outline"}>Cancel</Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
         <CardDescription>{description}</CardDescription>
