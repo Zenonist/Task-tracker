@@ -53,6 +53,14 @@ function App() {
     }
   };
 
+  // This function is called by the TaskList component when a task list is successfully deleted.
+  // It receives the ID of the deleted task list.
+  const deleteTaskList = (id: string) => {
+    // Update the taskList state by filtering out the task list with the matching ID.
+    // setTaskList triggers a re-render of the App component.
+    setTaskList((prevTaskList) => prevTaskList.filter((task) => task.id !== id));
+  }
+
   useEffect(() => {
     getTaskList();
     // It will execute only once when the website is loaded because there is no dependency
@@ -65,6 +73,9 @@ function App() {
         {taskList.length === 0 ? (
           <div className="text-center text-2xl">No Task List Found</div>
         ) : (
+          // When App re-renders, it maps over the updated taskList state.
+          // The deleted task list is no longer in the state, so its TaskList component
+          // is not rendered, effectively removing it from the UI.
           taskList.map((task) => (
             <div key={task.id} className="mb-4">
               <TaskList
@@ -72,6 +83,8 @@ function App() {
                 title={task.title}
                 description={task.description}
                 tasks={task.tasks}
+                // Pass the deleteTaskList function down to the TaskList component as the onDelete prop.
+                onDelete={deleteTaskList}
               />
             </div>
           ))
