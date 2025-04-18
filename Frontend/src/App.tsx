@@ -17,11 +17,13 @@ import {
 } from "./components/ui/dialog";
 import { Input } from "./components/ui/input";
 import { Label } from "./components/ui/label";
+import mockData from "./mock-data/mock-data";
 
 function App() {
   const [taskList, setTaskList] = useState<TaskListProps[]>([]);
   const [taskListTitle, setTaskListTitle] = useState<string>("");
   const [taskListDescription, setTaskListDescription] = useState<string>("");
+  const [loadMockData, setLoadMockData] = useState<boolean>(false);
 
   const addNewTaskList = (taskList: TaskListProps) => {
     axios.post(import.meta.env.VITE_API_URL + "/task-lists", {
@@ -79,19 +81,20 @@ function App() {
   useEffect(() => {
     getTaskList();
     // It will execute only once when the website is loaded because there is no dependency
+    if(taskList.length === 0) {
+      setLoadMockData(true);
+      setTaskList(mockData);
+    }
   }, []);
 
   return (
     <div className="min-h-screen bg-black text-white">
       <h1 className="text-5xl text-center">Task Tracker</h1>
       <div className="container mx-auto p-4">
-        {taskList.length === 0 ? (
-          <div className="text-center text-2xl">No Task List Found</div>
-        ) : (
-          // When App re-renders, it maps over the updated taskList state.
-          // The deleted task list is no longer in the state, so its TaskList component
-          // is not rendered, effectively removing it from the UI.
-          taskList.map((task) => (
+        {loadMockData && (
+          <div className="text-center text-2xl">Mock-data (Can't interact with component due to the lack of backend)</div>
+        )}
+          {taskList.map((task) => (
             <div key={task.id} className="mb-4">
               <TaskList
                 id={task.id}
@@ -103,8 +106,8 @@ function App() {
                 onEdit={editTaskList}
               />
             </div>
-          ))
-        )}
+          ))}
+        
       </div>
       <div className="flex justify-center items-center">
         <Dialog>
