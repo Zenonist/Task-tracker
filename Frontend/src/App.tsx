@@ -61,6 +61,21 @@ function App() {
     setTaskList((prevTaskList) => prevTaskList.filter((task) => task.id !== id));
   }
 
+
+  const editTaskList = (id: string, title: string, description: string) => {
+    setTaskList((prevTaskList) =>
+      // This pattern is common in React for immutably updating a specific item in an array
+      prevTaskList.map((task) => {
+        if (task.id === id) {
+          // Create a new object with updated properties for the matching task
+          return { ...task, title: title, description: description };
+        }
+        // Keep non-matching tasks unchanged
+        return task;
+      })
+    );
+  }
+
   useEffect(() => {
     getTaskList();
     // It will execute only once when the website is loaded because there is no dependency
@@ -85,6 +100,7 @@ function App() {
                 tasks={task.tasks}
                 // Pass the deleteTaskList function down to the TaskList component as the onDelete prop.
                 onDelete={deleteTaskList}
+                onEdit={editTaskList}
               />
             </div>
           ))
