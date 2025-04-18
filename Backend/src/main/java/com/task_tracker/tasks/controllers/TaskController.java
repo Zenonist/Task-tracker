@@ -49,6 +49,7 @@ import java.util.UUID;
 @RestController
 // @RequestMapping defines the base URL path for all endpoints in this controller
 // The {task_list_id} is a path variable that will be extracted and passed to methods
+@CrossOrigin
 @RequestMapping(path = "/task-lists/{task_list_id}/tasks")
 public class TaskController {
 
