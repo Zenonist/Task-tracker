@@ -1,1 +1,1 @@
-export type PriorityStatus = 'OPEN' | 'CLOSED';
+export type TaskStatus = 'OPEN' | 'CLOSED';

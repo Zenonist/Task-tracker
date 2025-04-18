@@ -35,6 +35,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Calendar } from "./ui/calendar";
 import { format } from "date-fns";
 import TaskProps from "@/structure/TaskProps";
+import { TaskStatus } from "@/structure/TaskStatus";
 
 interface TaskListComponentProps extends TaskListProps {
   // Callback function passed from the parent (App.tsx) to notify it when a task list is deleted.
@@ -120,11 +121,29 @@ export const TaskList = ({
     });
   }
 
-  const updateSubTasks = (id: string) => {
+  const updateSubTasksDone = (id: string) => {
     setSubTasks((prev) => {
       return prev.map((task) => {
         if (task.id === id) {
           return { ...task, status: "CLOSED" };
+        }
+        return task;
+      });
+    });
+  }
+
+  const updateSubTasksEdit = (id: string, title: string, description: string, status: TaskStatus, priority: PriorityStatus, dueDate: string) => {
+    console.log("Updating task with ID:", id);
+    console.log("New title:", title);
+    console.log("New description:", description);
+    console.log("New status:", status);
+    console.log("New priority:", priority);
+    console.log("New due date:", dueDate);
+    
+    setSubTasks((prev) => {
+      return prev.map((task) => {
+        if (task.id === id) {
+          return { ...task, title: title, description: description, status: status, priority: priority, dueDate: dueDate };
         }
         return task;
       });
@@ -255,9 +274,9 @@ export const TaskList = ({
                     dueDate={task.dueDate}
                     status={task.status}
                     priority={task.priority}
-                    onDone={updateSubTasks}
-                    onEdit={updateSubTasks}
-                    onDelete={updateSubTasks}
+                    onDone={updateSubTasksDone}
+                    onEdit={updateSubTasksEdit}
+                    // onDelete={updateSubTasks}
                   />
                 </div>
               ))}
