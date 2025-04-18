@@ -120,6 +120,17 @@ export const TaskList = ({
     });
   }
 
+  const updateSubTasks = (id: string) => {
+    setSubTasks((prev) => {
+      return prev.map((task) => {
+        if (task.id === id) {
+          return { ...task, status: "CLOSED" };
+        }
+        return task;
+      });
+    });
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -237,12 +248,16 @@ export const TaskList = ({
                 <div key={task.id} className="mb-4">
                   <Task
                     key={task.id}
+                    taskListId={id}
                     title={task.title}
                     description={task.description}
                     id={task.id}
                     dueDate={task.dueDate}
                     status={task.status}
                     priority={task.priority}
+                    onDone={updateSubTasks}
+                    onEdit={updateSubTasks}
+                    onDelete={updateSubTasks}
                   />
                 </div>
               ))}
