@@ -20,21 +20,23 @@ export const TaskList = ({ title, description, tasks }: TaskListProps) => {
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <div>
+        <div className="container mx-auto p-4">
           {tasks && tasks.length > 0 ? (
-            <>
+            <div>
               {tasks.map((task) => (
-                <Task
-                  key={task.id}
-                  title={task.title}
-                  description={task.description}
-                  id={task.id}
-                  dueDate={task.dueDate}
-                  status={task.status}
-                  priority={task.priority}
-                />
+                <div key={task.id} className="mb-4">
+                  <Task
+                    key={task.id}
+                    title={task.title}
+                    description={task.description}
+                    id={task.id}
+                    dueDate={task.dueDate}
+                    status={task.status}
+                    priority={task.priority}
+                  />
+                </div>
               ))}
-            </>
+            </div>
           ) : (
             <div className="text-center py-4 text-muted-foreground">
               No tasks available

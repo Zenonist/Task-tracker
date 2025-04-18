@@ -12,7 +12,7 @@ const mockData: TaskListProps[] = [
                 description: "This is the first task",
                 status: "not-started",
                 priority: "high",
-                dueDate: new Date("2023-10-15"),
+                dueDate: "2023-10-15T09:00:00",
             },
             {
                 id: "3",
@@ -20,7 +20,7 @@ const mockData: TaskListProps[] = [
                 description: "This is the third task",
                 status: "not-started",
                 priority: "low",
-                dueDate: new Date("2023-10-30"),
+                dueDate: "2023-10-30T14:30:00",
             }
         ]
     },
@@ -35,7 +35,7 @@ const mockData: TaskListProps[] = [
                 description: "This is the second task",
                 status: "in-progress",
                 priority: "medium",
-                dueDate: new Date("2023-10-20"),
+                dueDate: "2023-10-20T11:00:00",
             }
         ]
     },

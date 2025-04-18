@@ -4,5 +4,5 @@ export default interface TaskProps {
     description: string;
     status: string;
     priority: string;
-    dueDate: Date;
+    dueDate: string;
 }

@@ -19,7 +19,7 @@ export const Task = ({
           <div>
             <p>Status: {status}</p>
             <p>Priority: {priority}</p>
-            <p>Due Date: {dueDate.toLocaleDateString()}</p>
+            <p>Due Date: {dueDate}</p>
           </div>
         </div>
       </CardContent>
