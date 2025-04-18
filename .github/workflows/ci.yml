@@ -1,0 +1,53 @@
+name: Build and Test CI
+
+on:
+  push:
+    # branches: [ "main", "dev"]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-backend:
+    name: Build & Test Backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build and test with Maven
+        # -B runs in non-interactive (batch) mode
+        run: mvn -B package --file Backend/pom.xml
+
+  build-frontend:
+    name: Build & Lint Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+          cache-dependency-path: Frontend/yarn.lock
+
+      - name: Install dependencies
+        # --frozen-lockfile ensures that the yarn.lock file is not modified
+        run: yarn install --frozen-lockfile
+        working-directory: ./Frontend
+
+      - name: Lint code
+        run: yarn lint
+        working-directory: ./Frontend
+
+      - name: Build project
+        run: yarn build
+        working-directory: ./Frontend
