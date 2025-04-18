@@ -26,24 +26,27 @@ function App() {
   const [loadMockData, setLoadMockData] = useState<boolean>(false);
 
   const addNewTaskList = (taskList: TaskListProps) => {
-    axios.post(import.meta.env.VITE_API_URL + "/task-lists", {
-      title: taskList.title,
-      description: taskList.description,
-      count: 0,
-      progress: 0,
-      tasks: taskList.tasks,
-    }).then((response) => {
-      // * Update the task list state with the new task list
-      setTaskList((prev) => [...prev, response.data]);
-    }).catch((error) => {
-      console.error("Error adding task list:", error);
-    });
-  }
+    axios
+      .post(import.meta.env.VITE_API_URL + "/task-lists", {
+        title: taskList.title,
+        description: taskList.description,
+        count: 0,
+        progress: 0,
+        tasks: taskList.tasks,
+      })
+      .then((response) => {
+        // * Update the task list state with the new task list
+        setTaskList((prev) => [...prev, response.data]);
+      })
+      .catch((error) => {
+        console.error("Error adding task list:", error);
+      });
+  };
 
   const getTaskList = () => {
     if (!import.meta.env.VITE_API_URL) {
       console.log("API URL is not defined");
-    }else {
+    } else {
       axios
         // ! Requires env name to have VITE_ prefix because of the vite requirement
         .get(import.meta.env.VITE_API_URL + "/task-lists")
@@ -51,7 +54,11 @@ function App() {
           console.log(response.data);
           setTaskList(response.data);
         })
-        .catch((error) => console.error("Error fetching task lists:", error));
+        .catch((error) => {
+          console.error("Error fetching task lists:", error);
+          setLoadMockData(true);
+          setTaskList(mockData);
+        });
     }
   };
 
@@ -60,9 +67,10 @@ function App() {
   const deleteTaskList = (id: string) => {
     // Update the taskList state by filtering out the task list with the matching ID.
     // setTaskList triggers a re-render of the App component.
-    setTaskList((prevTaskList) => prevTaskList.filter((task) => task.id !== id));
-  }
-
+    setTaskList((prevTaskList) =>
+      prevTaskList.filter((task) => task.id !== id)
+    );
+  };
 
   const editTaskList = (id: string, title: string, description: string) => {
     setTaskList((prevTaskList) =>
@@ -76,15 +84,11 @@ function App() {
         return task;
       })
     );
-  }
+  };
 
   useEffect(() => {
     getTaskList();
     // It will execute only once when the website is loaded because there is no dependency
-    if(taskList.length === 0) {
-      setLoadMockData(true);
-      setTaskList(mockData);
-    }
   }, []);
 
   return (
@@ -92,22 +96,23 @@ function App() {
       <h1 className="text-5xl text-center">Task Tracker</h1>
       <div className="container mx-auto p-4">
         {loadMockData && (
-          <div className="text-center text-2xl">Mock-data (Can't interact with component due to the lack of backend)</div>
+          <div className="text-center text-2xl">
+            Mock-data (Can't interact with component due to the lack of backend)
+          </div>
         )}
-          {taskList.map((task) => (
-            <div key={task.id} className="mb-4">
-              <TaskList
-                id={task.id}
-                title={task.title}
-                description={task.description}
-                tasks={task.tasks}
-                // Pass the deleteTaskList function down to the TaskList component as the onDelete prop.
-                onDelete={deleteTaskList}
-                onEdit={editTaskList}
-              />
-            </div>
-          ))}
-        
+        {taskList.map((task) => (
+          <div key={task.id} className="mb-4">
+            <TaskList
+              id={task.id}
+              title={task.title}
+              description={task.description}
+              tasks={task.tasks}
+              // Pass the deleteTaskList function down to the TaskList component as the onDelete prop.
+              onDelete={deleteTaskList}
+              onEdit={editTaskList}
+            />
+          </div>
+        ))}
       </div>
       <div className="flex justify-center items-center">
         <Dialog>
