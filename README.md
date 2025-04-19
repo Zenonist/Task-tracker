@@ -1,54 +1,84 @@
-# React + TypeScript + Vite
+# Task Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack task tracking application built with a Spring Boot backend and a React frontend.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+*   **Backend:**
+    *   Java 21
+    *   Spring Boot 3.4.4
+    *   Spring Data JPA
+    *   Maven
+    *   PostgreSQL
+*   **Frontend:**
+    *   React 19
+    *   TypeScript
+    *   Vite
+    *   Tailwind CSS
+    *   shadcn/ui
+    *   Axios
+*   **Database:**
+    *   PostgreSQL (managed via Docker Compose)
 
-## Expanding the ESLint configuration
+## Prerequisites
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+*   Java Development Kit (JDK) 21 or later
+*   Maven
+*   Node.js and npm
+*   Docker and Docker Compose
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Getting Started
+
+1.  **Set up the database:**
+    *   Ensure Docker Desktop is running.
+    *   Navigate to the project root directory (where `docker-compose.yml` is located).
+    *   Run the following command to start the PostgreSQL database container:
+        ```bash
+        docker-compose up -d
+        ```
+    *   The database will be accessible on `localhost:5432` with username `user` and password `password`.
+
+2.  **Configure and Run the Backend:**
+    *   Navigate to the `Backend` directory:
+        ```bash
+        cd Backend
+        ```
+    *   The backend is configured in `src/main/resources/application.properties` to connect to the PostgreSQL database started via Docker Compose.
+    *   Build and run the Spring Boot application using Maven:
+        ```bash
+        ./mvnw spring-boot:run
+        ```
+        (Use `mvnw.cmd spring-boot:run` on Windows Command Prompt)
+    *   The backend API will be available at `http://localhost:8080` (default Spring Boot port).
+
+3.  **Configure and Run the Frontend:**
+    *   Navigate to the `Frontend` directory:
+        ```bash
+        cd ../Frontend
+        ```
+    *   Install the necessary dependencies:
+        ```bash
+        npm install
+        ```
+    *   Start the frontend development server:
+        ```bash
+        npm run dev
+        ```
+    *   The frontend application will be available at `http://localhost:5173` (default Vite port).
+
+## Project Structure
+
 ```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+.
+├── docker-compose.yml      # Docker configuration for PostgreSQL
+├── README.md               # This file
+├── Backend/                # Spring Boot backend application
+│   ├── pom.xml             # Maven configuration
+│   ├── src/main/java       # Backend Java source code
+│   └── src/main/resources  # Backend resources (e.g., application.properties)
+└── Frontend/               # React frontend application
+    ├── package.json        # Node.js dependencies and scripts
+    ├── vite.config.ts      # Vite configuration
+    ├── tsconfig.json       # TypeScript configuration
+    └── src/                # Frontend source code (components, assets, etc.)
 ```
