@@ -105,7 +105,7 @@ export const TaskList = ({
       title: createTaskTitle,
       description: createTaskDescription,
       priority: createTaskPriority,
-      dueDate: createTaskDueDate,
+      dueDate: createTaskDueDate?.toISOString(),
     })
     .then((response) => {
       // Render the new task in the task list
