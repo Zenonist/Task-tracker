@@ -46,6 +46,8 @@ function App() {
   const getTaskList = () => {
     if (!import.meta.env.VITE_API_URL) {
       console.log("API URL is not defined");
+      setLoadMockData(true);
+      setTaskList(mockData);
     } else {
       axios
         // ! Requires env name to have VITE_ prefix because of the vite requirement
