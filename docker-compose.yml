@@ -1,6 +1,3 @@
-# This is a Docker Compose configuration file for setting up services.
-    # In this configuration, we define a PostgreSQL database service.
-
     services:
       db:
         # Specifies the Docker image to use for the PostgreSQL database.
@@ -10,10 +7,42 @@
         environment:
           POSTGRES_USER: user
           POSTGRES_PASSWORD: password
+          POSTGRES_DB: mydatabase
 
         # Port mapping for the PostgreSQL database.
         ports:
-          - "5432:5432" # Maps port 5432 on the host to port 5432 on the container.
+          # Maps port 5432 on the host to port 5432 on the container.
+          - "5432:5432" # 
 
         # Always restart the container if it stops.
         restart: always
+
+        healthcheck:
+          # Update healthcheck to verify the specific database is ready
+          test: ["CMD-SHELL", "pg_isready -U user -d mydatabase"]
+          interval: 10s
+          timeout: 5s
+          retries: 5
+
+      backend:
+        # Specifies the Dockerfile to use for building the backend service.
+        build: ./Backend
+
+        # Port mapping for the backend service.
+        ports:
+          # Maps port 8000 on the host to port 8000 on the container.
+          - "8080:8080"
+
+        # Always restart the container if it stops.
+        restart: always
+
+        # Environment variables for the backend service.
+        environment:
+          DATABASE_URL: jdbc:postgresql://db:5432/mydatabase
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+
+        depends_on:
+          db:
+            # Wait for the database to be healthy before starting the backend.
+            condition: service_healthy
