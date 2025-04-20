@@ -36,6 +36,15 @@
         # Always restart the container if it stops.
         restart: always
 
+        # healthcheck to verify the backend service is healthy
+        healthcheck:
+        # We requires to install curl in the backend image to run healthcheck
+          test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+          interval: 10s
+          timeout: 5s
+          retries: 5
+          start_period: 15s
+
         # Environment variables for the backend service.
         environment:
           DATABASE_URL: jdbc:postgresql://db:5432/mydatabase
@@ -45,4 +54,21 @@
         depends_on:
           db:
             # Wait for the database to be healthy before starting the backend.
+            condition: service_healthy
+
+      frontend:
+        # Specifies the Dockerfile to use for building the frontend service.
+        build: ./Frontend
+
+        # Port mapping for the frontend service.
+        ports:
+          # Maps port 5173 on the host to port 5173 on the container.
+          - "5173:5173"
+
+        # Always restart the container if it stops.
+        restart: always
+
+        depends_on:
+          backend:
+            # Wait for the backend to be healthy before starting the frontend.
             condition: service_healthy

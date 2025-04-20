@@ -17,6 +17,9 @@ FROM amazoncorretto:21.0.7-alpine3.21
 
 WORKDIR /app
 
+# Install curl for health check
+RUN apk add --no-cache curl
+
 COPY --from=build /workspace/target/tasks-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
