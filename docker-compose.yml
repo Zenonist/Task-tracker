@@ -38,7 +38,7 @@
 
         # healthcheck to verify the backend service is healthy
         healthcheck:
-        # We requires to install curl in the backend image to run healthcheck
+        # We require to install curl in the backend image to run healthcheck
           test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
           interval: 10s
           timeout: 5s
