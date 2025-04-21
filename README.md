@@ -2,6 +2,9 @@
 
 A full-stack task tracking application built with a Spring Boot backend and a React frontend.
 
+## Note
+I create this project to study about full-stack web application with Spring Boot and React
+
 ## Tech Stack
 
 *   **Backend:**
